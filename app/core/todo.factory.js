@@ -3,12 +3,12 @@
 
     angular
         .module('app')
-        .factory('toDoesFactory', toDoesFactory);
+        .factory('todoFactory', todoFactory);
 
-    toDoesFactory.$inject = ['$http'];
+    todoFactory.$inject = ['$http'];
 
     /* @ngInject */
-    function toDoesFactory($http) {
+    function todoFactory($http) {
         var service = {
             create: create,
             getAll: getAll,
@@ -21,22 +21,19 @@
         ////////////////
 
         function create(todo) {
-        	return$http.post('http://http://localhost:54147/api/ToDoes', todo);
+        	return $http.post('http://localhost:63537/api/TodoItems', todo);
         }
-
         function getAll(){
-        	return$http.get('http://localhost:54147/api/ToDoes');
+        	return $http.get('http://localhost:63537/api/TodoItems');
         }
-
         function getById(id){
-        	return$http.get('http://localhost:54147/api/ToDoes' + id);
+        	return $http.get('http://localhost:63537/api/TodoItems/' + id);
         }
-
         function update(id, todo){
-        	return$http.put('http://localhost:54147/api/ToDoes' + id, todo);}
-
+        	return $http.put('http://localhost:63537/api/TodoItems/' + id, todo);
+        }
         function remove(id){
-        	return$http.delete('http://localhost:54147/api/ToDoes' + id);
+        	return $http.delete('http://localhost:63537/api/TodoItems/'+ id);
         }
     }
 })();

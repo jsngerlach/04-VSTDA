@@ -12,20 +12,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 </head>
 
-<body id="fontChanger">
+<body id="fontChanger" ng-controller="TodoController as postCtrl">
     <h1 class="text-center">To Do List!</h1>
-    <div class="container-fluid" ng-controller="PostController as postCtrl">
+    <div class="container-fluid">
         <div class="col-sm-4">
-            <div class="panel panel-info">
+            <div  id="entryField" class="panel panel-info">
                 <div class="panel-heading">
                     <h3 class="panel-title">Add Item</h3>
                 </div>
                 <div class="panel-body">
-                    <textarea name="" placeholder="Type item here please" ng-model="postCtrl.newPost.text" cols="6" rows="2" class="form-control"></textarea>
+                    <textarea name="" placeholder="Type item here please" ng-model="postCtrl.newTodo.name" cols="6" rows="2" class="form-control"></textarea>
                     <form>
                         <div class="form-group">
                             <label for="sev">Priority:</label>
-                            <select class="form-control" ng-model="postCtrl.newPost.priority">
+                            <select class="form-control" ng-model="postCtrl.newTodo.priority">
                                 <option value="3">Low</option>
                                 <option value="2">Medium</option>
                                 <option value="1">High</option>
@@ -34,7 +34,7 @@
                         </div>
                     </form>
                     <div class="footer clearfix">
-                        <button class="btn btn-lg btn-primary pull-right" ng-click="postCtrl.addPost()">+ Add Chore</button>
+                        <button class="btn btn-lg btn-primary pull-right" ng-click="postCtrl.addTodo()">+ Add Chore</button>
                     </div>
                 </div>
             </div>
@@ -43,12 +43,12 @@
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-primary btn-lg" ng-click="postCtrl.orderBy='priority'">Highest</button>
                 <button type="button" class="btn btn-primary btn-lg" ng-click="postCtrl.orderBy='-priority'">Lowest</button>
-                <button type="button" class="btn btn-primary btn-lg" ng-click="postCtrl.orderBy='text'">Alphabetic</button>
+                <button type="button" class="btn btn-primary btn-lg" ng-click="postCtrl.orderBy='name'">Alphabetic</button>
             </div>
             <ul class="list-group">
-                <li class="list-group-item clearfix" ng-repeat="post in postCtrl.posts | orderBy :postCtrl.orderBy" ng-class="postCtrl.getClass(post)">
-                    {{post.text}}
-                    <button class="btn btn-xs btn-danger pull-right" ng-click="postCtrl.deletePost(post)">x</button>
+                <li id="output" class="list-group-item clearfix" ng-repeat="todo in postCtrl.todos | orderBy :postCtrl.orderBy" ng-class="postCtrl.getClass(todo)">
+                    {{todo.name}}
+                    <button class="btn btn-xs btn-danger pull-right" ng-click="postCtrl.deleteTodo(todo)">x</button>
                 </li>
             </ul>
         </div>
@@ -58,6 +58,8 @@
     <script src="bower_components/angular/angular.js"></script>
     <script src="app/app.module.js"></script>
     <script src="app/home/home.controller.js"></script>
+    <script src="app/core/todo.factory.js"></script>
+
 </body>
 
 </html>

@@ -2,36 +2,58 @@
     'use strict';
     angular
         .module('app')
-        .controller('PostController', PostController);
-    PostController.$inject = [];
+        .controller('TodoController', TodoController);
+    TodoController.$inject = ['todoFactory'];
 
-    function PostController() {
+    function TodoController(todoFactory) {
         var vm = this;
-        vm.posts = [];
-        vm.addPost = addPost;
-        vm.deletePost = deletePost;
+        vm.todos = [];
+        vm.addTodo = addTodo;
+        vm.deleteTodo = deleteTodo;
         vm.getClass = getClass;
 
-        function addPost() {
-            vm.posts.push(vm.newPost);
-            vm.newPost = {};
+        activate();
+
+        ////////////////////
+
+        function activate() {
+            todoFactory
+                .getAll()
+                .then(function(response) {
+                    vm.todos = response.data
+                });
         }
 
-        function deletePost(post) {
-            var index = vm.posts.indexOf(post);
-            vm.posts.splice(index, 1);
+        function addTodo() {
+            todoFactory
+                .create(vm.newTodo)
+                .then(function(response) {
+                    vm.todos.push(response.data);
+
+                    vm.newTodo = {};
+                })
+                .catch(function(error) {});
         }
 
-        function getClass(post) {
-            switch (post.priority) {
-                case '1':
+        function deleteTodo(todo) {
+            todoFactory
+                .remove(todo.todoItemId)
+                .then(function(response) {
+                    var index = vm.todos.indexOf(todo);
+
+                    vm.todos.splice(index, 1);
+                })
+        }
+
+        function getClass(todo) {
+            switch (todo.priority) {
+                case 1:
                     return 'list-group-item-danger';
-                case '2':
+                case 2:
                     return 'list-group-item-warning';
-                case '3':
+                case 3:
                     return 'list-group-item-success';
             }
         };
     }
 })()
-
